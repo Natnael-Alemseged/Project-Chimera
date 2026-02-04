@@ -2,6 +2,8 @@
 
 This document tracks the evolution of agent rules and configuration across different IDE/agent setups.
 
+**External Sources**: See [EXTERNAL_SOURCES.md](./EXTERNAL_SOURCES.md) for detailed citations of all external resources consulted during rule development.
+
 ## Version 2.0 - Cursor Migration (Current)
 **Date**: 2026-02-04  
 **IDE**: Cursor  

@@ -8,7 +8,7 @@ I have configured a high-performance AI orchestration environment by integrating
 
 **MCP Infrastructure:** Configured mcp.json with mandatory headers (X-Device, X-Coding-Tool) and successfully authenticated via GitHub to enable the tenxfeedbackanalytics tools.
 
-**Workflow Research (Boris Cherny):** Researched and adapted the creator of Claude Code's workflow, specifically the use of a persistent "Source of Truth" file and "Plan-First" execution.
+**Workflow Research (Boris Cherny):** Researched and adapted the creator of Claude Code's workflow, specifically the use of a persistent "Source of Truth" file and "Plan-First" execution. See [EXTERNAL_SOURCES.md](./EXTERNAL_SOURCES.md) for detailed citations and how this influenced our rule structure.
 
 **Rule Implementation:**
 
@@ -40,6 +40,8 @@ I have configured a high-performance AI orchestration environment by integrating
 **Architectural Guardrails:** Rules bridge the gap between user intent and execution. Defining a "Plan Mode" forces the LLM to think about edge cases and dependencies that a human might overlook in a fast-paced environment.
 
 ## 5. Version History & Experimentation
+
+**External Sources & Citations:** See [EXTERNAL_SOURCES.md](./EXTERNAL_SOURCES.md) for explicit citations of all external resources consulted, including Boris Cherny's workflow, MCP documentation, GitHub examples, and community discussions.
 
 **Rule Version Tracking:** See [RULE_VERSION_HISTORY.md](./RULE_VERSION_HISTORY.md) for detailed evolution of agent rules across IDE migrations (VS Code → Cursor).
 

@@ -73,3 +73,4 @@
 ## ⚠️ Lessons Learned
 - Keep runtime & test commands explicitly documented in `agents.md` to avoid local-import issues (PYTHONPATH).
 - Co-locating tests with implementation keeps changes discoverable and simplifies maintenance.
+- External sources and their influence on rules are documented in [EXTERNAL_SOURCES.md](../EXTERNAL_SOURCES.md).

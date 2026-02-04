@@ -14,5 +14,7 @@ This repository contains my submission for the Tenx MCP Setup Challenge. The goa
 
 ## 📄 Documentation
 - Detailed insights and troubleshooting can be found in [REPORT.md](./REPORT.md).
-- Global agent rules are defined in [.github/copilot-instructions.md](./.github/copilot-instructions.md).
+- Global agent rules are defined in [.cursor/rules/agent.mdc](./.cursor/rules/agent.mdc).
 - Project-specific standards are maintained in [agents.md](./agents.md).
+- External sources and citations: [EXTERNAL_SOURCES.md](./EXTERNAL_SOURCES.md).
+- Rule version history: [RULE_VERSION_HISTORY.md](./RULE_VERSION_HISTORY.md).
