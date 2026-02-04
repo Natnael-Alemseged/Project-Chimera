@@ -8,8 +8,8 @@ This repository contains my submission for the Tenx MCP Setup Challenge. The goa
 - **Persistent Memory**: Use of an `agents.md` file to maintain project-specific context and standards across sessions.
 
 ## 🛠 Setup & Configuration
-- **IDE**: VS Code
-- **Agent**: GitHub Copilot
+- **IDE**: Cursor
+- **Agent**: Cursor AI (configured via `.cursor/`)
 - **MCP Server**: Tenx Feedback Analytics 
 
 ## 📄 Documentation

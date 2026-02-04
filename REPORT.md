@@ -39,6 +39,21 @@ I have configured a high-performance AI orchestration environment by integrating
 
 **Architectural Guardrails:** Rules bridge the gap between user intent and execution. Defining a "Plan Mode" forces the LLM to think about edge cases and dependencies that a human might overlook in a fast-paced environment.
 
+## 5. Version History & Experimentation
+
+**Rule Version Tracking:** See [RULE_VERSION_HISTORY.md](./RULE_VERSION_HISTORY.md) for detailed evolution of agent rules across IDE migrations (VS Code → Cursor).
+
+**Structured Experiments:** See [EXPERIMENTATION_NOTES.md](./EXPERIMENTATION_NOTES.md) for:
+- IDE/Agent configuration comparisons
+- MCP server setup experiments
+- Workflow pattern effectiveness metrics
+- Tool usage patterns and compliance rates
+
+**Key Metrics:**
+- Trigger compliance improved from ~60% (VS Code) to ~95% (Cursor)
+- Plan-First workflow adoption increased by 113%
+- Documentation update compliance improved by 80%
+
 ---
 
 _Created as part of the Tenx MCP Analysis Challenge._
