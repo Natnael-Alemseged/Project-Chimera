@@ -1,0 +1,20 @@
+[project]
+name = "project-chimera"
+version = "0.1.0"
+description = "Autonomous AI influencer system (Project Chimera)."
+requires-python = ">=3.12"
+dependencies = [
+    "pydantic>=2.6.0",
+    "redis>=5.0.0",
+    "python-dotenv>=1.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "ruff>=0.6.0",
+    "pytest>=8.0.0",
+]
+
+[tool.uv]
+dev-dependencies = ["ruff>=0.6.0", "pytest>=8.0.0"]
+
