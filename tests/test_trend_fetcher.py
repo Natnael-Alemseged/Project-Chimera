@@ -7,7 +7,7 @@ is added (TDD approach).
 """
 
 import pytest
-from pydantic import BaseModel, ValidationError
+from pydantic import BaseModel, ValidationError, Field
 
 
 # Pydantic model for trend alert output contract
@@ -15,7 +15,7 @@ class TrendAlertOutput(BaseModel):
     """Expected output structure for trend detection (FR 2.2)."""
     trend_alert: bool
     topics: list[str]
-    relevance_score: float  # 0.0 to 1.0
+    relevance_score: float = Field(ge=0.0, le=1.0)  # 0.0 to 1.0
     alert_message: str
 
 
