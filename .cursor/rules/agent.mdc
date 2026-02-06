@@ -47,3 +47,121 @@ FAILURE TO FOLLOW THESE RULES CONSTITUTES A BREACH OF PROJECT PROTOCOL.
 alwaysApply: true
 ---
 
+
+# Chimera Project Rules
+
+## Project Context
+
+- This is **Project Chimera, an autonomous influencer system**.
+- Treat this repository as the **source of truth** for:
+  - FastRender Swarm architecture (Planner / Worker / Judge).
+  - MCP-based integrations (social platforms, Weaviate, Coinbase AgentKit).
+  - Agentic Commerce (non-custodial wallets, on-chain transactions).
+- Always assume multiple autonomous agents and a **Single-Orchestrator model** (one human supervising many agents).
+
+## Prime Directive
+
+- **NEVER generate code without checking `specs/` first.**
+- Before proposing or editing code:
+  - Read and align with:
+    - `specs/_meta.md`
+    - `specs/functional.md`
+    - `specs/technical.md`
+    - `specs/openclaw_integration.md` (when OpenClaw / agent social protocols are involved).
+  - Confirm that the requested change is **consistent with these specs**.
+- If the specs are missing, ambiguous, or contradictory:
+  - **Do not write implementation code.**
+  - Instead, propose **spec updates** and clarify intent in the relevant `specs/*.md` files.
+
+## General Behavior & Traceability
+
+- **Always explain your plan before writing code.**
+  - Briefly outline: goal → constraints → approach → files to touch.
+  - Reference the specific sections of `specs/` and SRS that justify your approach.
+- Maintain **traceability** for every non-trivial change:
+  - Link behavior to user stories in `specs/functional.md`.
+  - Link interfaces and schemas to `specs/technical.md`.
+  - Link architectural decisions to `specs/_meta.md` and the SRS.
+- Work in **small, reviewable steps**:
+  - Prefer multiple focused edits over giant, sweeping changes.
+  - After each batch of changes, summarize exactly what changed and why.
+- Treat all work as **Spec-Driven Development (SDD)**:
+  - Specs define intent, constraints, and contracts.
+  - Code is only an implementation detail that must conform to the specs.
+
+## Architecture & SRS Alignment
+
+- **Use the FastRender Swarm pattern only**:
+  - Model cognition as:
+    - **Planner** – decomposes high-level goals into a DAG of tasks.
+    - **Worker** – executes atomic tasks (no global orchestration inside Workers).
+    - **Judge** – validates outputs with OCC and safety / acceptance criteria.
+  - Do **not** introduce monolithic “god agents” that bypass this structure.
+- **Use MCP for all external interactions**:
+  - NEVER call external services (Twitter/X, Instagram, TikTok, Weaviate, Coinbase, news APIs, etc.) directly from business logic.
+  - Always wrap external IO as:
+    - MCP **Resources** (read-only data streams).
+    - MCP **Tools** (side-effectful operations).
+  - If an integration is missing, design an MCP server/tool specification first (in `specs/technical.md`).
+- **Respect the hybrid storage strategy**:
+  - PostgreSQL for relational / transactional state.
+  - Weaviate for semantic memory and RAG.
+  - Redis for ephemeral queues and short-term memory.
+- **Honor multi-tenancy and isolation**:
+  - Always include `tenant_id` in schemas and APIs that cross trust boundaries.
+  - Never mix data or behavior between tenants.
+
+## Safety & Governance
+
+- **Prioritize safety over convenience and speed.**
+- **Human-in-the-Loop (HITL)**:
+  - Always model a clear HITL path:
+    - Judges compute confidence and risk.
+    - Low-confidence (< 0.90) or sensitive content (politics, finance, health, minors, etc.) MUST be escalated to HITL.
+  - Do not auto-approve content that violates HITL rules, even if technically possible.
+- **EU AI Act and transparency**:
+  - Ensure designs allow agents to disclose that they are AI where required.
+  - Preserve logs and audit trails for decisions, content, and on-chain actions.
+- **Agentic Commerce**:
+  - Use **non-custodial wallets only** (e.g., via Coinbase AgentKit).
+  - Always route financial actions through a **CFO / Resource Governor** layer (Judge + policy).
+  - Enforce campaign and agent budgets; never design unlimited-spend flows.
+- **Cost management**:
+  - Prefer lower-cost models and media operations by default.
+  - Use tiered strategies for content (daily vs hero content) and justify high-cost operations via specs.
+- When in doubt, **fail closed**:
+  - Prefer halting a risky action and surfacing a clear explanation over “trying something” that may violate safety or policy.
+
+## Coding & Workflow Standards
+
+- **Languages and libraries**:
+  - Use **Python** as the primary implementation language.
+  - Use **pydantic** (v2) for strict data models (e.g., `AgentPersona`, task/response schemas).
+  - Use **async** I/O where appropriate (network, MCP calls, database access).
+  - Apply **strict typing** (type hints everywhere; no untyped dynamic soup).
+- **Persona and memory handling**:
+  - Load personas from `SOUL.md` per SRS dev notes (FR 1.0).
+  - Assemble context using hierarchical memory:
+    - Redis (short-term),
+    - Weaviate (long-term),
+    - `SOUL.md` (persona DNA).
+- **MCP integration**:
+  - Model new capabilities as MCP Resources/Tools with explicit JSON contracts defined in `specs/technical.md`.
+  - Keep client code thin; avoid embedding business rules deep inside MCP servers.
+- **Testing and TDD**:
+  - Derive tests from `specs/functional.md` and `specs/technical.md`.
+  - For new functionality, write failing tests first (e.g., `tests/test_trend_fetcher.py`, `tests/test_skills_interface.py`).
+  - Ensure tests encode the contracts and invariants defined in specs (schema fields, HITL behavior, budget checks, etc.).
+- **Workflow inside Cursor**:
+  - For each task:
+    1. Restate the user request in terms of Chimera concepts.
+    2. Identify relevant sections in `specs/` and the SRS.
+    3. Explain a short plan (what to change, which files, in what order).
+    4. Apply minimal, spec-aligned changes.
+    5. Summarize what changed and how it aligns with specs.
+- **Avoid**:
+  - Vibe-coding without referencing specs.
+  - Monolithic, deeply nested functions or giant modules.
+  - Direct external calls that bypass MCP.
+  - Silent deviations from `specs/` or SRS; always call out when something does not match and propose spec updates first.
+
