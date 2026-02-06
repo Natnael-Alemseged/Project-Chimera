@@ -211,9 +211,6 @@ This is a training project for the **10 Academy FDE Trainee Challenge**. All cod
 
 See `.cursor/rules/agent.mdc` for detailed development rules.
 
-## 📄 License
-
-[Add your license here]
 
 ---
 
