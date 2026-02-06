@@ -52,14 +52,14 @@ This document answers Task 1.2 by choosing an **agent pattern**, defining a **hu
 
 ```mermaid
 graph TD
-    A[High-Level Goal<br/>e.g. 'Promote Ethiopia Summer Fashion'] --> B[Planner<br/>Build Task DAG]
-    B --> C[Task Queue<br/>(Redis / Worker Queue)]
-    C --> D[Workers<br/>Execute Tasks in Parallel]
-    D --> E[Judge<br/>Validate with OCC + Safety Rules]
-    E --> F[Approve & Commit<br/>Update Global State]
-    F --> G[Publish Content / Update Schedules]
-    E --> H[Reject & Retry<br/>Send Feedback to Planner]
-    E --> I[Escalate to HITL<br/>(Human Review)]
+    A[High-Level Goal - Promote Ethiopia Summer Fashion] --> B[Planner - Build Task DAG]
+    B --> C[Task Queue - Redis / Worker Queue]
+    C --> D[Workers - Execute Tasks in Parallel]
+    D --> E[Judge - Validate with OCC and Safety Rules]
+    E --> F[Approve and Commit - Update Global State]
+    F --> G[Publish Content and Update Schedules]
+    E --> H[Reject and Retry - Feedback to Planner]
+    E --> I[Escalate to HITL - Human Review]
 ```
 
 The **OpenClaw / Agent Social Network** integration fits at the Planner and Worker layers via MCP tools (e.g., `openclaw_broadcast_status`, `openclaw_fetch_peer_signals`), enabling Chimera agents to share status and coordinate with other agents, not just humans.
@@ -85,12 +85,12 @@ This aligns with SRS definitions of **HITL**, **Management by Exception**, and s
 
 ```mermaid
 flowchart LR
-    W[Worker Output<br/>(Caption / Image / Video)] --> J[Judge<br/>Evaluate Quality & Risk]
-    J -->|High Confidence<br/>> 0.90 & Low Risk| P[Auto-Publish]
-    J -->|Medium Confidence<br/>0.70–0.90 or Sensitive Topic| H[HITL Review Queue]
-    J -->|Low Confidence<br/>< 0.70| R[Reject & Re-plan]
+    W[Worker Output - Caption / Image / Video] --> J[Judge - Evaluate Quality and Risk]
+    J -->|High Confidence above 0.90 and Low Risk| P[Auto-Publish]
+    J -->|Medium Confidence 0.70-0.90 or Sensitive Topic| H[HITL Review Queue]
+    J -->|Low Confidence below 0.70| R[Reject and Re-plan]
 
-    H --> HA[Human Approves/Edits]
+    H --> HA[Human Approves or Edits]
     HA --> P
     H --> HR[Human Rejects]
     HR --> R
@@ -147,11 +147,6 @@ erDiagram
     WALLET ||--o{ TRANSACTION : records
 
     AGENT ||--o{ MEMORY : has
-    MEMORY {
-        string type
-        string embedding_id  // key into Weaviate
-        string source        // post, comment, trend_alert, etc.
-    }
 ```
 
 - **PostgreSQL**: `TENANT`, `AGENT`, `CAMPAIGN`, `POST`, `VIDEO_ASSET`, `WALLET`, `TRANSACTION`, foreign keys, and reporting views.
