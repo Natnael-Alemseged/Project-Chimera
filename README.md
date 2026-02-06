@@ -173,6 +173,7 @@ See `.coderabbit.yaml` for configuration.
 - **Skills**: `skills/*/README.md` (contract definitions)
 - **Security**: `SECURITY.md` (secrets, wallets, HITL, MCP)
 - **Contributing**: `CONTRIBUTING.md` (commit conventions, spec-first workflow)
+- **Backend scope**: `docs/BACKEND.md` (agent runtime, MCP, data layer, skills)
 - **Frontend plan**: `docs/FRONTEND.md` (Dashboard & HITL UI scope)
 - **Rubric alignment**: `RUBRIC_ALIGNMENT.md` (evidence for all grading criteria)
 - **SRS**: `Project Chimera SRS Document Autonomous Influencer Network.pdf`
