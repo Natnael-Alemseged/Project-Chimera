@@ -159,6 +159,10 @@ See `.coderabbit.yaml` for configuration.
 - **Architecture**: `research/architecture_strategy.md`
 - **Tooling**: `research/tooling_strategy.md`
 - **Skills**: `skills/*/README.md` (contract definitions)
+- **Security**: `SECURITY.md` (secrets, wallets, HITL, MCP)
+- **Contributing**: `CONTRIBUTING.md` (commit conventions, spec-first workflow)
+- **Frontend plan**: `docs/FRONTEND.md` (Dashboard & HITL UI scope)
+- **Rubric alignment**: `RUBRIC_ALIGNMENT.md` (evidence for all grading criteria)
 - **SRS**: `Project Chimera SRS Document Autonomous Influencer Network.pdf`
 
 ## 🛠 Tech Stack
@@ -171,12 +175,21 @@ See `.coderabbit.yaml` for configuration.
 - **GitHub Actions** – CI/CD
 - **CodeRabbit** – AI PR review
 
-### Data Storage (Hybrid)
+### DB & Data Management
 
-- **PostgreSQL** – Relational/transactional data
-- **Weaviate** – Vector database for semantic memory
-- **Redis** – Episodic cache and task queues
-- **Blockchain** (Base/Ethereum/Solana) – On-chain transactions
+- **Hybrid storage** (see `specs/technical.md` §3):
+  - **PostgreSQL** – Relational/transactional data (tenants, agents, campaigns, posts, wallets, transactions, users, reviews); ERD and table notes in specs.
+  - **Weaviate** – Vector DB for semantic memory (RAG); Memory class schema defined in specs.
+  - **Redis** – Episodic cache and task queues (Planner ↔ Worker ↔ Judge).
+  - **Blockchain** (Base/Ethereum/Solana) – On-chain transaction ledger.
+- All entities include `tenant_id` for multi-tenancy; no cross-tenant data access.
+
+### MCP Configuration
+
+- **Tenx MCP Sense** is configured in `.cursor/mcp.json` for telemetry and “thinking” verification (same GitHub account as repo).
+- **Developer MCP tools** (git, filesystem, fetch, time, weaviate stub) are documented in `research/tooling_strategy.md` with setup and security notes.
+- **Runtime MCP servers** (twitter, weaviate, coinbase, news) and their Resources/Tools are defined in `specs/technical.md` §4 and `specs/openclaw_integration.md`.
+- All external IO must go through MCP (see `.cursor/rules/agent.mdc` and `specs/_meta.md`).
 
 ## 🎯 Current Status
 
@@ -191,6 +204,15 @@ This repository contains the **foundation and specifications** for Project Chime
 - ✅ AI governance (CodeRabbit)
 
 **Next Steps**: Implement skills and core agent runtime to satisfy test contracts.
+
+### Agentic Trajectory & Growth
+
+This repo is designed so **AI agents can enter and build features with minimal human conflict**:
+
+- **Spec-first:** `specs/` and `.cursor/rules/agent.mdc` give agents a single source of truth and clear constraints (FastRender, MCP-only, HITL, budget governance).
+- **Traceability:** Rules require “explain your plan before writing code” and reference to specs/SRS, so agent changes stay aligned.
+- **CONTRIBUTING.md** asks contributors to keep rules and specs updated for agent-assisted development.
+- **Tenx MCP Sense** telemetry records agent-assisted work for evaluators; connect with the same GitHub account as the repo.
 
 ## 📖 References
 
