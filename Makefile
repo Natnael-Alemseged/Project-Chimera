@@ -1,7 +1,7 @@
 # Project Chimera - Makefile for automation
 # Provides common development and CI/CD commands
 
-.PHONY: setup test build spec-check clean help
+.PHONY: setup test build spec-check demo clean help
 
 # Docker image name and tag
 IMAGE_NAME := chimera-fde
@@ -30,6 +30,10 @@ build: ## Build Docker image
 spec-check: ## Verify code references specs/ and SRS terms
 	@echo "Checking spec alignment..."
 	@./scripts/spec-check.sh
+
+demo: ## Run small demo (contract validation + Judge logic)
+	@echo "Running Chimera demo..."
+	uv run python scripts/demo_chimera.py
 
 clean: ## Remove Docker image and local build artifacts
 	@echo "Cleaning up..."

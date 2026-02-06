@@ -107,9 +107,21 @@ make setup      # Install dependencies with uv sync
 make test       # Run tests in Docker container
 make build      # Build Docker image (chimera-fde:latest)
 make spec-check # Verify code references specs/ and SRS terms
+make demo       # Run small demo (contract validation + Judge/HITL logic)
 make clean      # Remove Docker image and build artifacts
 make help       # Show all available targets
 ```
+
+### Small Demo
+
+A minimal runnable demo shows contract validation and Judge decision logic (no backend or MCP required):
+
+```bash
+make demo
+# or: uv run python scripts/demo_chimera.py
+```
+
+It validates a trend-alert payload against the FR 2.2 contract, rejects invalid input (e.g. score > 1.0), and simulates Judge routing: **Auto-Approve** (≥0.90), **HITL Review** (0.70–0.90), **Reject** (&lt;0.70).
 
 ## 🧪 Testing
 
