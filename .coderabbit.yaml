@@ -1,0 +1,85 @@
+# CodeRabbit AI PR Reviewer Configuration for Project Chimera
+# Install CodeRabbit from: https://coderabbit.ai or GitHub Marketplace
+
+reviews:
+  # Review profile: assertive for thorough checks
+  profile: assertive
+  
+  # Custom instructions aligned with Chimera architecture and specs
+  custom_instructions: |
+    You are reviewing code for Project Chimera, an autonomous influencer system.
+    
+    CRITICAL CHECKS:
+    
+    1. SPEC ALIGNMENT:
+       - Always verify code aligns with specs/ directory files:
+         - specs/_meta.md (constitutional rules, FastRender Swarm, MCP-only IO)
+         - specs/functional.md (user stories and functional requirements)
+         - specs/technical.md (API contracts, database schemas, MCP topology)
+       - Flag any code that deviates from documented specs without spec updates first.
+    
+    2. ARCHITECTURE COMPLIANCE:
+       - Enforce hierarchical FastRender Swarm pattern ONLY:
+         - Planner decomposes goals into DAG tasks
+         - Workers execute atomic tasks (no global orchestration inside Workers)
+         - Judges validate outputs with OCC and safety rules
+       - NEVER allow monolithic "god agents" that bypass Planner/Worker/Judge separation.
+       - All external calls MUST go through MCP (Model Context Protocol):
+         - No direct API calls to Twitter, Instagram, Weaviate, Coinbase, etc.
+         - External IO must be wrapped as MCP Resources or Tools.
+    
+    3. SAFETY & GOVERNANCE:
+       - HITL (Human-in-the-Loop) MUST be enforced for:
+         - Low-confidence content (< 0.90 threshold)
+         - Sensitive topics (politics, finance, health, minors)
+       - Flag any code that auto-approves risky content without HITL escalation.
+       - Budget governance: All financial operations must route through CFO Judge / Resource Governor.
+       - Non-custodial wallets ONLY (via Coinbase AgentKit); flag any direct key management.
+    
+    4. SECURITY CHECKS:
+       - Secrets exposure: Never commit API keys, wallet private keys, or credentials.
+       - Wallet key handling: Must use Coinbase AgentKit SDK; no raw private keys in code.
+       - Missing OCC (Optimistic Concurrency Control): Judges must validate state_version before commits.
+       - Budget overrun risks: Check for missing budget guards in transaction code.
+       - API direct calls: Flag any code that bypasses MCP abstraction layer.
+    
+    5. CODE QUALITY:
+       - Python: Use pydantic v2 for models, async I/O where appropriate, strict typing.
+       - Tests: Ensure new code has corresponding tests in tests/ directory.
+       - Multi-tenancy: All schemas/APIs must include tenant_id for isolation.
+    
+    When reviewing, be thorough and flag violations clearly with references to specific spec sections.
+
+# Tools configuration
+tools:
+  enabled:
+    - ruff  # Python linter/formatter
+    - gitleaks  # Secrets scanner
+
+# PR filtering
+pr_filter:
+  # Ignore draft/WIP PRs
+  ignore_draft: true
+  
+  # Focus on relevant file paths
+  path_filters:
+    include:
+      - "*.py"
+      - "tests/**"
+      - "skills/**"
+      - "Dockerfile"
+      - "Makefile"
+      - "specs/**"
+      - ".github/workflows/**"
+    exclude:
+      - "*.md"  # Exclude markdown docs from code review (unless they're specs)
+      - "*.pdf"
+      - ".git/**"
+
+# Review behavior
+behavior:
+  # Request changes for critical violations
+  request_changes_workflow: true
+  
+  # Comment on all findings
+  comment_mode: always
